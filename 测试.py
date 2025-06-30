@@ -1,60 +1,78 @@
 import threading
 import requests
 import time
+from queue import Queue
 
+# =========================
+# 可自定义参数
+# =========================
+NUM_REQUESTS_PER_SECOND = 1000  # 总请求数/秒
+DURATION_SECONDS = 10          # 测试时长
+TARGET_URL = "http://127.0.0.1:8000"  # 目标URL
+NUM_WORKERS = 10               # 工作线程数
+
+# =========================
+# 任务队列
+# =========================
+task_queue = Queue()
 stop_event = threading.Event()
 
-def attack(url, rate_per_second, thread_id):
-    interval = 1.0 / rate_per_second  # 每个请求之间的间隔
+def worker(thread_id):
     session = requests.Session()
-
     while not stop_event.is_set():
-        start = time.perf_counter()
-
         try:
-            response = session.get(url, timeout=5)
-            print(f"[Thread-{thread_id}] 请求成功: {response.status_code}")
+            _ = task_queue.get(timeout=1)
+        except:
+            continue
+        try:
+            response = session.get(TARGET_URL, timeout=5)
+            print(f"[Worker-{thread_id}] 状态码: {response.status_code}")
         except Exception as e:
-            print(f"[Thread-{thread_id}] 请求失败: {e}")
+            print(f"[Worker-{thread_id}] 请求失败: {e}")
+        finally:
+            task_queue.task_done()
 
-        # 保持精确节奏
-        elapsed = time.perf_counter() - start
-        sleep_time = interval - elapsed
-        if sleep_time > 0:
-            time.sleep(sleep_time)
+def scheduler():
+    total_requests = NUM_REQUESTS_PER_SECOND * DURATION_SECONDS
+    interval = 1.0 / NUM_REQUESTS_PER_SECOND  # 间隔时间（秒）
 
-def start_attack(url, num_threads, rate_per_thread, duration_seconds):
-    threads = []
+    print(f"\n[+] 计划总请求数：{total_requests}")
+    print(f"[+] 每次发出间隔：{interval:.6f} 秒")
 
-    print(f"\n[!] 正在发起压力测试：")
-    print(f"   - 目标地址：{url}")
-    print(f"   - 线程数：{num_threads}")
-    print(f"   - 每线程请求速率：{rate_per_thread} 次/秒")
-    print(f"   - 总速率：{num_threads * rate_per_thread} 次/秒")
-    print(f"   - 持续时间：{duration_seconds} 秒\n")
+    next_time = time.perf_counter()
 
-    for i in range(num_threads):
-        t = threading.Thread(target=attack, args=(url, rate_per_thread, i+1))
+    for i in range(total_requests):
+        now = time.perf_counter()
+        if now < next_time:
+            time.sleep(next_time - now)
+        task_queue.put(i)
+        next_time += interval
+
+    print("\n[+] 所有请求任务已调度完毕")
+
+def main():
+    print(f"\n[!] 正在启动测试：{NUM_REQUESTS_PER_SECOND} req/s, {DURATION_SECONDS} 秒，共 {NUM_REQUESTS_PER_SECOND * DURATION_SECONDS} 个请求\n")
+
+    # 启动 worker 线程
+    workers = []
+    for i in range(NUM_WORKERS):
+        t = threading.Thread(target=worker, args=(i+1,))
         t.daemon = True
         t.start()
-        threads.append(t)
+        workers.append(t)
 
-    try:
-        time.sleep(duration_seconds)
-    finally:
-        stop_event.set()
-        print("\n[!] 正在停止测试...")
+    # 启动调度器
+    scheduler_thread = threading.Thread(target=scheduler)
+    scheduler_thread.start()
 
-    for t in threads:
-        t.join()
+    # 等待调度结束
+    scheduler_thread.join()
 
-    print("[+] 所有线程已安全退出。")
+    # 等待任务执行完
+    task_queue.join()
+    stop_event.set()
 
-# 示例用法
+    print("\n[✔] 测试完成，所有请求已发送。")
+
 if __name__ == "__main__":
-    target_url = input("请输入目标URL（例如 http://127.0.0.1:8000）：").strip()
-    num_threads = int(input("请输入线程数：").strip())
-    rate = float(input("请输入每线程每秒请求数：").strip())
-    duration = int(input("请输入持续时间（秒）：").strip())
-
-    start_attack(target_url, num_threads, rate, duration)
+    main()
