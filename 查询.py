@@ -27,8 +27,8 @@ def save_data(data):
 def query_mode():
     data = load_data()
     while True:
-        print("\n🔍 查询模式（输入 m 返回菜单）")
-        key = input("请输入要查询的键: ")
+        print("\n🔍 查询模式")
+        key = input("请输入数据: ")
 
         if key.strip().lower() == "m":
             return  # 返回主菜单
@@ -52,20 +52,20 @@ def main():
         data = load_data()
 
         if choice == "1":
-            key = input("请输入键（例如 2）: ")
+            key = input("请写入数据 ")
             value = input("请输入你想要系统反馈的内容: ")
             data[key] = value
             save_data(data)
             print(f"✅ 已保存：{key} -> {value}")
 
         elif choice == "2":
-            key = input("请输入要删除的键: ")
+            key = input("删除数据 ")
             if key in data:
                 del data[key]
                 save_data(data)
                 print(f"🗑️ 已删除：{key}")
             else:
-                print("⚠️ 未找到该键。")
+                print("⚠️ 未找到该数据")
 
         elif choice == "3":
             if data:
