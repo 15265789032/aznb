@@ -27,7 +27,7 @@ def main():
     while True:
         data = load_data()
 
-        print("\n🔍 默认查询模式：")
+        print("\n🔍 请输入数据：")
         key = input("请输入要查询的键（直接回车进入菜单）: ")
 
         query_result = ""
