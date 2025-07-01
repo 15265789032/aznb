@@ -1,86 +1,40 @@
-import json
-import os
-import sys
+^@^@^@^@^U+dhs^H^@^@�^@^@^@^@^@^@^@^@^@^@^@^@^F^@^@^@^@^@^@^@��^@^@^@�^@d^@d^Al^@Z^@d^@d^Al^AZ^Ad^@d^Al^BZ^Bd^BZ^Cd^CZ^Dd^DZ^Ed^EZ^Fd^FZ^Gd^GZ^He^Aj^R^@^@^@>
+�^@Z^Od^K�^@Z^Pd^L�^@Z^Qe^Rd
+k(^@^@r^H^B^@e^Q�^@^@^@^@^@^@^@^A^@y^Ay^A#^@1^@s^Aw^B^A^@Y^@^A^@^A^@�#x^CY^@w^A)^N�^@^@^@^@Nz^E^[[92mz^D^[[0mz^C^[[sz^C^[[uz^C^[[Kz     data.json�^Awc^@^@^@>
+�g�s�   ^[�q�^O^S�y�y�^Q�|�^C^@
+^\�     ^[�     ^[�s^H^@^@^@�^U0^C�^E9^Gc^A^@^@^@^@^@^@^@^@^@^@^@^F^@^@^@^C^@^@^@�~^@^@^@�^@t^A^@^@^@^@^@^@^@^@t^B^@^@^@^@^@^@^@^@d^A�^B^@^@^@^@^@^@5^@}^At^>
+^@^@^@s^B^@^@^@  r^K^@^@^@�     save_datar^R^@^@^@^W^@^@^@s*^@^@^@�^@�
+�g�s�   ^[�q�^H^L�      �       �$�^A�!�^H$�^C^@
+^\�     ^[�     ^[�s^H^@^@^@�^Y3^C�^E<^Gc^@^@^@^@^@^@^@^@^@^@^@^@^H^@^@^@^C^@^@^@�~^A^@^@�^@t^A^@^@^@^@^@^@^@^@�^@^@^@^@^@^@^@}^@       ^@t^C^@^@^@^@^@^@^@^>
+^@^@^@^@^@^@^@^@�^@|^@|^A^Y^@^@^@�^@t^L^@^@^@^@^@^@^@^@�^@�^C}^Bn^Ot
+^@^@^@^@^@^@^@^@�^@d^Dt^L^@^@^@^@^@^@^@^@�^@�^C}^Bt^N^@^@^@^@^@^@^@^@j^P^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@j^S^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@d^Et^T^@^>
+🔍 查询模式u^Q^@^@^@请输入数据: �^Amu^R^@^@^@未找到该数据�^A
+)^Nr^L^@^@^@�^Eprint�^Einput�^Estrip�^Elower�^EGREEN�^ERESET�^Csys�^Fstdout�^Ewrite�^KSAVE_CURSOR�
+CLEAR_LINE�^NRESTORE_CURSOR�^Eflush)^Cr^Q^@^@^@�^Ckey�^Fresults^C^@^@^@   r^K^@^@^@�
+query_moder%^@^@^@^[^@^@^@s�^@^@^@�^@�^K^T�;�D�
+^N�^H
+�^N#�^H$�^N^S�^T'�^N(�^C�^K^N�9�9�;�^K^\�^K^\�^K^^�#�^K%�^L^R�^K^N�$�;�^X^]�w�t�C�y�k�%�^W�^U1�F�^X^]�w�^^0�^U�^G�^U8�F�^F^@    ^L�
+�
+�^H^X�^H^X�2�k�]�:�,�v�h�~�>N�b�^YQ�^HR�^H^K�
+�
+�^H^X�^H^X�^H^Z�^]^@^K^O�^@^@^@^@c^@^@^@^@^@^@^@^@^@^@^@^@^F^@^@^@^C^@^@^@�^T^B^@^@�^@  ^@t^A^@^@^@^@^@^@^@^@�^@^@^@^@^@^@^@^A^@t^C^@^@^@^@^@^@^@^@d^A�^A^@^>
+�^A^@^@^@^@^@^@^A^@nc|^@d^Kk(^@^@rB|^Ar4t^C^@^@^@^@^@^@^@^@d^L�^A^@^@^@^@^@^@^A^@|^Aj^K^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@^@�^@^@^@^@^@^@^@D^@]^U^@^@\^B^@^@}>
+�^A^@^@^@^@^@^@^A^@n^\|^@d^Nk(^@^@r^Lt^C^@^@^@^@^@^@^@^@d^O�^A^@^@^@^@^@^@^A^@y^@t^C^@^@^@^@^@^@^@^@d^P�^A^@^@^@^@^@^@^A^@�^A�^H)^QNuB^@^@^@
+📋 功能菜单：[1]录入 [2]删除 [3]查看所有 [4]退出�^A1u^P^@^@^@请写入数据 u)^@^@^@请输入你想要系统反馈的内容: u^P^@^@^@✅ 已保存：z^D -> �^A2u
+^@^@^@删除数据 u^T^@^@^@🗑️ 已删除：u^Y^@^@^@⚠️ 未找到该数据�^A3u^]^@^@^@📖 当前数据库内容：u^W^@^@^@📭 数据库为空。�^A4u^W^@^@^@👋 已退出程序。u%^@^@^@❌ 无效>
+^N�^H^R�^L�^H
+�^NS�^HT�^Q^V�^W�^F�^O^X�{�^D�^K^Q�S�=�^R^W�^X*�^R+�C�^T^Y�^ZE�^TF�E�^X^]�D�^S�I�^L^U�d�O�^L^Q�^T$�S�E�^T�e�W�^R5�^L6�
+^S�s�]�^R^W�^O�^R(�C�^O^R�d�{�^T^X�^S�I�^P^Y�$�^O�^P^U�^X,�S�E�^V2�^P3�^P^U�^V1�^P2�
+^S�s�]�^O^S�^P^U�^V5�^P6�^\ �J�J�L�D�A�q�^T^Y�Q�C�t�A�3�-�^T(�^C^@^])�^F^@^Q^V�^V/�^P0�
+^S�s�]�^L^Q�^R+�^L,�^L^Q�^F^@
+^R�^R9�^L:�K^A^@^K^Or&^@^@^@�^H__main__)^Sr^H^@^@^@�^Bosr^\^@^@^@r^Z^@^@^@r^[^@^@^@r^_^@^@^@r!^@^@^@r ^@^@^@r^G^@^@^@�^Dpath�^Fexistsr^F^@^@^@r
+^@^@^@r^P^@^@^@r^L^@^@^@r^R^@^@^@r%^@^@^@r1^@^@^@�^H__name__�^@r&^@^@^@r^K^@^@^@�^H<module>r8^@^@^@^A^@^@^@s�^@^@^@�^C^A^A^A�^@^K�^@    �^@
+�^F^@   ^S�^E�^H^Q�^E�^N^V�^K�^Q^Y�^N�
+^U�
+�
+^U�^G�^F^@^H
+�w�w�~�~�g�^G^^�
+�g�s�   ^[�q�^H^Q�^D�   �       �"�a�^H^X�^C^@
+^\�^F^B^A^\�^H^B^A%�^H^P^A^[�$&^A;�P^A^@^D^L�z�^C^Y�^D^H�F�^C^@^D^Z�K^B^@
+^\�     ^[�s^K^@^@^@�^TA3^C�3^EA<^G
 
-# ANSI颜色定义
-GREEN = '\033[92m'
-RESET = '\033[0m'
-SAVE_CURSOR = '\033[s'
-RESTORE_CURSOR = '\033[u'
-CLEAR_LINE = '\033[K'
-
-DB_FILE = "data.json"
-
-# 初始化数据库文件
-if not os.path.exists(DB_FILE):
-    with open(DB_FILE, 'w') as f:
-        json.dump({}, f)
-
-def load_data():
-    with open(DB_FILE, 'r') as f:
-        return json.load(f)
-
-def save_data(data):
-    with open(DB_FILE, 'w') as f:
-        json.dump(data, f, indent=4)
-
-def query_mode():
-    data = load_data()
-    while True:
-        print("\n🔍 查询模式")
-        key = input("请输入数据: ")
-
-        if key.strip().lower() == "m":
-            return  # 返回主菜单
-
-        if key in data:
-            result = f"{GREEN}{data[key]}{RESET}"
-        else:
-            result = f"{GREEN}未找到该数据{RESET}"
-
-        # 输出到最后一行
-        sys.stdout.write(f"\n{SAVE_CURSOR}{CLEAR_LINE}{result}{RESTORE_CURSOR}\n")
-        sys.stdout.flush()
-
-def main():
-    while True:
-        query_mode()
-
-        print("\n📋 功能菜单：[1]录入 [2]删除 [3]查看所有 [4]退出")
-        choice = input()
-
-        data = load_data()
-
-        if choice == "1":
-            key = input("请写入数据 ")
-            value = input("请输入你想要系统反馈的内容: ")
-            data[key] = value
-            save_data(data)
-            print(f"✅ 已保存：{key} -> {value}")
-
-        elif choice == "2":
-            key = input("删除数据 ")
-            if key in data:
-                del data[key]
-                save_data(data)
-                print(f"🗑️ 已删除：{key}")
-            else:
-                print("⚠️ 未找到该数据")
-
-        elif choice == "3":
-            if data:
-                print("📖 当前数据库内容：")
-                for k, v in data.items():
-                    print(f"{k} -> {v}")
-            else:
-                print("📭 数据库为空。")
-
-        elif choice == "4":
-            print("👋 已退出程序。")
-            break
-
-        else:
-            print("❌ 无效选项，请重新输入。")
-
-if __name__ == "__main__":
-    main()
