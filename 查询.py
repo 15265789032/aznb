@@ -35,8 +35,8 @@ def save_data(filename, data):
 def query_mode():
     data = load_data(DATA_DB)
     while True:
-        print("\n🔍 查询模式（查询写入数据库）")
-        key = input("请输入数据 (输入 m 返回菜单): ")
+        print("\n🔍 查询模式")
+        key = input("请输入数据: ")
 
         if key.strip().lower() == "m":
             return
