@@ -12,10 +12,9 @@ SAVE_CURSOR = '\033[s'
 RESTORE_CURSOR = '\033[u'
 CLEAR_LINE = '\033[K'
 
-DATA_DB = "data.json"    # 录入/查询数据数据库
-KEYS_DB = "keys.json"    # 生成密钥数据库
+DATA_DB = "data.json"
+KEYS_DB = "keys.json"
 
-# 初始化数据库文件
 def init_db(filename, default_data):
     if not os.path.exists(filename):
         with open(filename, 'w') as f:
@@ -32,22 +31,34 @@ def save_data(filename, data):
     with open(filename, 'w') as f:
         json.dump(data, f, indent=4)
 
+# 查询写入数据，格式统一
 def query_mode():
     data = load_data(DATA_DB)
     while True:
         print("\n🔍 查询模式")
-        key = input("请输入数据: ")
+        key = input("请输入要查询的数据： ").strip()
 
-        if key.strip().lower() == "m":
+        if key.lower() == "m":
             return
 
         if key in data:
-            result = f"{GREEN}{data[key]}{RESET}"
+            print(f"{GREEN}✅ 查到结果：{key} -> {data[key]}{RESET}")
         else:
-            result = f"{GREEN}未找到该数据{RESET}"
+            print(f"{GREEN}❌ 未找到：{key}{RESET}")
 
-        sys.stdout.write(f"\n{SAVE_CURSOR}{CLEAR_LINE}{result}{RESTORE_CURSOR}\n")
-        sys.stdout.flush()
+# 查询密钥，备注结果用绿色单独一行输出
+def query_keys_only():
+    keys_db = load_data(KEYS_DB)
+    while True:
+        print("\n🔍 查询模式")
+        key = input("请输入要查询的密钥：").strip()
+        if key.lower() == "m":
+            break
+
+        if key in keys_db:
+            print(f"\n{GREEN}{keys_db[key]}{RESET}")  # 绿色单独一行输出备注
+        else:
+            print("❌ 未找到该密钥")
 
 def generate_key(index):
     first = f"{random.randint(1, 999):03d}"
@@ -57,14 +68,14 @@ def generate_key(index):
 
 def list_all_keys():
     data = load_data(KEYS_DB)
-    pattern = re.compile(r'^\d{3}[A-Z]{4}\d{4}$')  # 密钥格式
+    pattern = re.compile(r'^\d{3}[A-Z]{4}\d{4}$')
 
     keys = [(k, v) for k, v in data.items() if pattern.match(k)]
-    
+
     if not keys:
         print("📭 没有生成过任何密钥。")
     else:
-        print("\n🔑 所有生成的密钥（从密钥数据库）：\n")
+        print("\n🔑 所有生成的密钥：\n")
         for i, (k, v) in enumerate(keys, 1):
             print(f"{i:03d}. {k} -> {v}")
         print(f"\n🧮 共计：{len(keys)} 个密钥。")
@@ -80,10 +91,10 @@ def main():
         print("[4] 退出")
         print("[5] 生成密钥")
         print("[6] 列出所有密钥")
+        print("[7] 查询密钥")
 
         choice = input()
 
-        # 加载数据库
         data_db = load_data(DATA_DB)
         keys_db = load_data(KEYS_DB)
 
@@ -123,10 +134,13 @@ def main():
                     continue
 
                 current_counter = keys_db.get("__counter__", 0)
+                print("\n🔐 正在生成密钥，每行一个，便于复制：\n")
+
                 for i in range(1, count + 1):
                     current_counter += 1
                     key = generate_key(current_counter)
-                    remark = input(f"🔐 生成密钥：{GREEN}{key}{RESET}，请输入备注：")
+                    print(f"{GREEN}{key}{RESET}")
+                    remark = input("请输入备注：")
                     keys_db[key] = remark
 
                 keys_db["__counter__"] = current_counter
@@ -138,6 +152,9 @@ def main():
 
         elif choice == "6":
             list_all_keys()
+
+        elif choice == "7":
+            query_keys_only()
 
         else:
             print("❌ 无效选项，请重新输入。")
